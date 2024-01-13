@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% load custom_tags %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block content %}
+   <h1>Все товары</h1>
+   <h3>{% current_time '%b %d %Y' %}</h3>
+   <hr>
+   {% if post %}
+       <table> <!-- Начинаем описывать таблицу -->
+           <tr> <!-- Добавляем строку -->
+
+               <td>
+                   Дата
+               </td>
+               <td>
+                   Заголовок
+               </td>
+               <td>
+                   Текст
+               </td>
+
+           </tr> <!-- Не забываем закрыть HTML-тег строки -->
+           {% for p in post %}
+           <tr>
+
+
+               <td>{{ p.dateCreation }}</td>
+               <td>{{ p.title|censor}}</td>
+
+               <td>{{ p.text|truncatechars:20 }}</td>
+
+           </tr>
+           {% endfor %}
+       </table> <!-- ... и таблицы -->
+   {% else %}
+       <h2>Товаров нет!</h2>
+   {% endif %}
+{% endblock content %}
