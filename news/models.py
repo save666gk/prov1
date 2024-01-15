@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -37,6 +38,10 @@ class Post(models.Model):
     title = models.CharField(max_length=256, verbose_name='Наименование')
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.pk)])
 
     def like(self):
         self.rating += 1
