@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from allauth.account.views import SignupView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path("flatpages/", include("django.contrib.flatpages.urls")),
     path('', include('news.urls')),
+
+
 ]

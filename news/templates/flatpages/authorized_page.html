@@ -1,0 +1,14 @@
+{% extends 'accounts/base.html' %}
+{% block title %}
+{% endblock title %}
+
+<title>Авторизированная страница</title>
+{% block content %}
+<h2>Добро пожаловать, {{ user.username }}!</h2>
+<!— Добавьте содержимое страницы —>
+<a href="{% url 'account_logout' %}"> Выйти</a>
+<form action="{% url 'become_author' %}" method="post">
+{% csrf_token %}
+<button type="submit">Стать автором</button>
+</form>
+{% endblock content %}
