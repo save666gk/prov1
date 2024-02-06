@@ -9,6 +9,10 @@ Products
 {% endblock title %}
 
 {% block content %}
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a></p>
+    {% endif %}
+
    <h1>Все товары</h1>
    <h3>{% current_time '%b %d %Y' %}</h3>
 
@@ -23,7 +27,7 @@ Products
    </form>
 
     <hr>
-    {% if post %}
+    {% if category_news_list %}
 
        <table> <!-- Начинаем описывать таблицу -->
            <tr> <!-- Добавляем строку -->
@@ -35,26 +39,27 @@ Products
                    Заголовок
                </td>
                <td>
-                   Текст
+                   Категории
                </td>
                <td>
-                   Категория
+                   Текст
                </td>
 
+
            </tr> <!-- Не забываем закрыть HTML-тег строки -->
-           {% for p in post %}
+           {% for p in category_news_list %}
            <tr>
 
 
                <td>{{ p.dateCreation }}</td>
                <td>{{ p.title|censor}}</td>
-
-               <td>{{ p.text|truncatechars:20 }}</td>
-               <td>
+                <td>
                     {% for category in p.category.all %}
                         <a href="{% url 'category_list' category.id %}">{{category}}</a>
                     {% endfor %}
                 </td>
+               <td>{{ p.text|truncatechars:20 }}</td>
+
 
 
            </tr>

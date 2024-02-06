@@ -1,7 +1,9 @@
+from django.core.mail import send_mail
 from django.db import models
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 class Author(models.Model):
@@ -22,8 +24,10 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=256, unique=True)
+    subscribers = models.ManyToManyField(User, blank=True, related_name='categories')
 
-
+    def __str__(self):
+        return self.name
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор')
     ARTICLE = 'AR'
@@ -34,10 +38,13 @@ class Post(models.Model):
     )
     kindCategory = models.CharField(max_length=2, choices=Kinds, default=ARTICLE)
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=256, verbose_name='Наименование')
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.title
 
 
     def get_absolute_url(self):
@@ -74,4 +81,8 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+
+
 

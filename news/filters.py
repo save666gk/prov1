@@ -14,5 +14,6 @@ class PostFilter(FilterSet):
 
            'title': ['icontains'],
             'author':['exact'],
-           'dateCreation':['date__gt', ]
+           'dateCreation':['date__gt', ],
+           'category':['exact']
        }
